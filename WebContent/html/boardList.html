@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <script type="text/javascript">
+	$(document).ready(function(){
+		$.get("../main",
+				  {		
+					sign:"listArticles.do"
+					
+				  },
+				  function(data){			 
+					  console.log(data);//[{"":},{},{}]
+					  data=JSON.parse(data);//JavaScript Object로 변환 [{:},{},{}]					  
+					  let table="<table  class='table'><tr  class='table-primary'><th>글번호</th><th>작성자</th><th>제목</th><th>작성일</th></tr>";
+					  for(let i=0;i<data.length;i++){
+						  console.log(data[i]);
+						  table += "<tr  class='table-info'><td>"+data[i].articleNO+"</td>";
+						  table += "<td>"+data[i].id+"</td>";
+						  if(data[i].level != 1){//답글일 때
+							  table += "<td><a href='../main?articleNo="+ data[i].articleNO +"&sign=viewArticle.do'><span style='padding-left:"+(data[i].level*20)+"px'> ↪"+data[i].title+"</span></a></td>";
+						  }else{//첫글일 때
+							  table += "<td><a href='../main?articleNo="+ data[i].articleNO +"&sign=viewArticle.do'>"+data[i].title+"</a></td>";
+						  }
+						  
+						  table += "<td>"+data[i].writeDate+"</td></tr>";
+					  }
+					  table += "</table>";
+					  $("#boardListDiv").html(table);
+				  }
+		); 	
+	});
+
+</script>
+</head>
+<body>
+  <div class="container">
+	<h2 style="text-align:center;">게시판</h2><br>	
+	<div id="boardListDiv"></div>
+	<center><a href='boardWrite.html' >글쓰기</a></center>
+  </div>	
+</body>
+</html>
+
+
+
+
+
+

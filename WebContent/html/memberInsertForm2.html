@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('button').click(function(){
+			const name=$('#name').val();
+			const id=$('#id').val();
+			const pw=$('#pw').val();
+			alert(name+":"+id+":"+pw);
+			//회원가입 요청
+			//jQuery-AJAX
+			/* $.get('../main?name='+name+"&id="+id+"&pw="+pw,function(data, status){
+				alert("Data: " + data + "\nStatus: " + status);
+				window.close();
+			}); */
+			
+			$.post("../main",
+					  {
+						sign:"memberInsert",
+					    name,
+					    id,
+					    pw
+					  },
+					  function(data, status){
+					    alert("Data: " + data + "\nStatus: " + status);
+					    window.close();
+					  }
+			);
+			
+			//console.log(opener.document.getElementById("welcomeMsg"));
+			//opener.document.getElementById("welcomeMsg").textContent=name+"님 환영합니다";
+			
+		});
+	});
+
+</script>
+</head>
+<body>
+	Name <input id='name'><br>
+	ID <input id='id'><br>
+	PW <input id='pw'><br>	
+	<button>회원가입</button>
+</body>
+</html>
